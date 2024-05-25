@@ -54,6 +54,25 @@ namespace FashionWebsite.Repository
             return myDesigns;
         }
 
+        public async Task<List<DesignViewModels>> GetAllDesigns()
+        {
+            var designs = await _context.Designs
+                .Include(d => d.User)
+                .Select(d => new DesignViewModels
+                {
+                    Id = d.Id,
+                    Name = d.DesignName,
+                    Image = d.ImagePath,
+                    UpVotes = d.UpVotes,
+                    FashionistaId = d.UserId,
+                    FashionistaName = $"{d.User.FirstName} {d.User.LastName}"
+                })
+                .OrderByDescending(d => d.UpVotes)
+                .ToListAsync();
+
+            return designs;
+        }
+
         public async Task<bool> AddDesign(AddDesignViewModel design)
         {
             if (!_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
@@ -179,6 +198,7 @@ namespace FashionWebsite.Repository
             var userClaim = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             string userId = null;
             bool isOwner = false;
+            bool hasUpvoted = false;
 
 
             var design = await _context.Designs
@@ -202,15 +222,101 @@ namespace FashionWebsite.Repository
             {
                 userId = userClaim.Value;
                 isOwner = await _context.Designs.Where(d => d.Id == id && d.UserId == userId).AnyAsync();
+                hasUpvoted = await _context.UpVotes.Where(d => d.UserId == userId && d.DesignId == id).AnyAsync();
             }
 
             if(design != null) 
             { 
-                design.IsOwner = isOwner; 
-                // Add a has upvoted 
+                design.IsOwner = isOwner;
+                design.HasUpvoted = hasUpvoted;
             }
 
             return design;
+        }
+
+        public async Task UpvoteDesign(int id, int flag, string userId)
+        {
+            var upvote = await _context.UpVotes.Where(u => u.UserId == userId && u.DesignId == id).FirstOrDefaultAsync();
+            var design = await _context.Designs.Where(u => u.Id == id).FirstOrDefaultAsync();
+
+            if (design == null) 
+            {
+                return;
+            }
+
+            if(flag == 1)
+            {
+                if (upvote == null)
+                {
+                    var newUpVote = new UpVotes
+                    {
+                        UserId = userId,
+                        DesignId = id
+                    };
+
+                    _context.UpVotes.Add(newUpVote);
+                    design.UpVotes += 1;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                if(upvote != null) 
+                {
+                    _context.UpVotes.Remove(upvote);
+                    design.UpVotes -= 1;
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return;
+        }
+
+        public async Task<List<MyDesignViewModel>> GetUpvotedDesigns()
+        {
+            if (!_contextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                var returnUrl = _contextAccessor.HttpContext.Request.GetEncodedPathAndQuery();
+
+                // Redirect to login, including the return URL for post-login redirection
+                _contextAccessor.HttpContext.Response.Redirect("/Account/Login?returnUrl=" + Uri.EscapeDataString(returnUrl));
+            }
+
+
+            var userClaim = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            string userId = null;
+
+
+            if (userClaim == null)
+            {
+                var returnUrl = _contextAccessor.HttpContext.Request.GetEncodedPathAndQuery();
+
+                // Redirect to login, including the return URL for post-login redirection
+                _contextAccessor.HttpContext.Response.Redirect("/Account/Login?returnUrl=" + Uri.EscapeDataString(returnUrl));
+            }
+            else
+            {
+                userId = userClaim.Value;
+            }
+
+            var upvotedIds = await _context.Users
+            .Where(d => d.Id == userId)
+            .Include(d => d.UpVotes)
+            .SelectMany(d => d.UpVotes.Select(v => v.DesignId))
+            .ToListAsync();
+
+            var myUpvotedDesings = await _context.Designs
+            .Where(d => upvotedIds.Contains(d.Id))
+            .Select(d => new MyDesignViewModel
+            {
+                Id = d.Id,
+                Name = d.DesignName,
+                Image = d.ImagePath,
+                UpVotes = d.UpVotes
+            })
+            .ToListAsync();
+
+            return myUpvotedDesings;
         }
     }
 }

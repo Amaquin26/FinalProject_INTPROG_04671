@@ -15,12 +15,22 @@
             <p class="card-text no-margin"><small class="text-body-secondary">Date Uploaded: @Model.DateAdded.ToString("MMMM dd, yyyy")</small></p>
             <p class="card-text no-margin"><small class="text-body-secondary">Declared Price: @Model.Price.ToString("C")</small></p>
             <p class="card-text no-margin"><small class="text-body-secondary"> @Model.UpVotes Upvotes</small></p>
-            @if (Model.IsOwner)
-            {
-                <div class="display-end">
+            <div class="display-between">
+                @if (Model.HasUpvoted && User.Identity.IsAuthenticated)
+                {
+                    <span>Downvote Design <a asp-action="UpvoteDesign" asp-controller="Design" asp-route-id="@Model.DesignId" asp-route-flag="0"><img src="~/img/icon/heart_filled.png" alt=""></a></span>
+                }
+                else if (!Model.HasUpvoted && User.Identity.IsAuthenticated)
+                {
+                    <span>Upvote Design <a asp-action="UpvoteDesign" asp-controller="Design" asp-route-id="@Model.DesignId" asp-route-flag="1"><img src="~/img/icon/heart.png" alt=""></a></span>
+                }   
+                
+                @if (Model.IsOwner)
+                {
                     <a asp-action="EditDesign" asp-controller="Design" asp-route-id="@Model.DesignId" class="btn btn-light btn-outline-dark">Edit Design</a>
-                </div>
-            }
+                }
+            </div>
+            
         </div>
     </div>
     <img src="@Url.Content(Model.DesignImage)" class="card-img-bottom">
@@ -35,8 +45,9 @@
         margin:0 !important;
     }
 
-    .display-end{
+    .display-between {
         display:flex;
-        justify-content:end;
+        justify-content: space-between;
+        align-items: center;
     }
 </style>

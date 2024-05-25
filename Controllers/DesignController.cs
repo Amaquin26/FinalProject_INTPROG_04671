@@ -13,10 +13,14 @@ namespace FashionWebsite.Controllers
         private readonly UserManager<AppUser> _userManager = userManager;
         private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var result = await _designRepository.GetAllDesigns();
 
-            return View();
+            if (result == null)
+                return RedirectToAction("PageNotFound", "Home");
+
+            return View(result);
         }
 
         public async Task<IActionResult> MyDesign()
@@ -117,6 +121,47 @@ namespace FashionWebsite.Controllers
             return RedirectToAction("Unauthorized", "Home");
         }
 
+        public async Task<IActionResult> UpvoteDesign(int id, int flag)
+        {
+            var userClaim = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userClaim == null)
+                return RedirectToAction("Login", "Account");
+
+            string userId = userClaim.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            await _designRepository.UpvoteDesign(id, flag, userId);
+
+            return RedirectToAction("ViewDesign", new { id });
+        }
+
+        public async Task<IActionResult> Upvoted()
+        {
+            var userClaim = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userClaim == null)
+                return RedirectToAction("Login", "Account");
+
+            string userId = userClaim.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
+            var result = await _designRepository.GetUpvotedDesigns();
+
+            if (result == null)
+                return RedirectToAction("PageNotFound", "Home");
+
+            return View(result);
+        }
+
         private async Task<bool> IsUserAuthenticatedAndFashionista()
         {
 
@@ -138,6 +183,6 @@ namespace FashionWebsite.Controllers
                 return false;
 
             return true;
-        }
+        }    
     }
 }

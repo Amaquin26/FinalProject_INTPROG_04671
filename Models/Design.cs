@@ -13,6 +13,7 @@ namespace FashionWebsite.Models
         public AppUser User { get; set; }
         public decimal Price { get; set; }
         public int UpVotes { get; set; }
-        public DateTime DateAdded { get; set; } 
+        public DateTime DateAdded { get; set; }
+        public ICollection<UpVotes> UserUpVotes { get; set; } = new List<UpVotes>();
     }
 }
