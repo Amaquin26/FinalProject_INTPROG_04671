@@ -16,7 +16,9 @@
     .hero__text {
         margin-left: 200px
     }
-
+    .red-hover:hover{
+        color: #e53637 !important;
+    }
 </style>
 <div class="hero__slider owl-carousel">
     <div class="hero__items set-bg" data-setbg="@Url.Content("~/img/hero/hero-1.jpg")">
@@ -97,7 +99,7 @@
                             }
                             else if (@userRole == "Fashionista")
                             {
-                                <a asp-action="MyDesigns" asp-controller="Design" class="primary-btn">Upload Designs<span class="arrow_right"></span></a>
+                                <a asp-action="MyDesign" asp-controller="Design" class="primary-btn">Upload Designs<span class="arrow_right"></span></a>
                             }
                         }
                         <div class="hero__social">
@@ -166,17 +168,17 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="@Url.Content(design.DesignImage)">
                         </div>
-                        <div class="product__item__text">
+                        <div class="">
                             <h6>@design.DesignName</h6>
-                            <h6>By: @design.FashionistaName</h6>
-                            <a asp-action="ViewDesign" asp-controller="Design" asp-route-id="@design.DesignId" class="add-cart">View</a>
+                            <h6><a class="red-hover" asp-action="Page" asp-controller="Fashionista" asp-route-userId="@design.FasionistaId">By: @design.FashionistaName</a></h6>
+                            <a class="btn btn-outline-dark w-100" asp-action="ViewDesign" asp-controller="Design" asp-route-id="@design.DesignId" class="add-cart">View</a>
                         </div>
-                    </div>
+                    </div>    
                 </div>
             }
         </div>
     </div>
-</section>
+</section
 
 
 

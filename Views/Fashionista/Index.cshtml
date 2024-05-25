@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "MyDesign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using FashionWebsite.ViewModels
+@model IEnumerable<FashionistaViewModel>
+<style>
+    body {
+        margin: 0;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .hero__text {
+        margin-left: 200px
+    }
+
+</style>
+
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="filter__controls">
+                    <li class="active">Fashionista</li>
+                </ul>
+            </div>
+        </div>
+        <p class="lead">
+            Discover talented Fashionistas and expand your vision with them.
+        </p>
+        <div class="row gx-4 mt-3">
+            @foreach (var fashionista in Model)
+            {
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@fashionista.FashionistaName</h5>
+                            <p class="card-text no-margin"><span class="text-body-secondary">Contact Info: @fashionista.FashionistaContact</span></p>
+                            <p class="card-text no-margin"><span class="text-body-secondary">Total Upvotes: @fashionista.TotalUpvotes</span></p>
+                            <p class="card-text no-margin"><span class="text-body-secondary">Total Designs Crafted: @fashionista.TotalDesigns</span></p>
+                            <div class="d-flex justify-content-end">
+                                <a asp-action="Page" asp-controller="Fashionista" asp-route-userId="@fashionista.FashionistaId" class="btn btn-primary">Visit Page</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+

@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IHomeRepository, HomeRepository>();
 builder.Services.AddScoped<IDesignRepository, DesignRepository>();
+builder.Services.AddScoped<IFashionistaRepository, FashionistaRepository>();
 
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();

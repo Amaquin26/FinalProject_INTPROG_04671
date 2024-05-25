@@ -26,7 +26,7 @@
 
     <header>
         <div class="container">
-            <div class="row">
+            <div class="d-flex justify-content-between">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
                         <a href="@Url.Action("Index", "Home")">
@@ -34,7 +34,7 @@
                             </a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="d-flex">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             @{
@@ -57,7 +57,7 @@
                                     <li><a href="@Url.Action("Index", "Home")">Home</a></li>
                                     <li><a href="@Url.Action("Index", "Design")">Designs</a></li>
                                     <li><a href="@Url.Action("Upvoted", "Design")">Upvoted</a></li>
-                                    <li><a href="@Url.Action("Contact", "Home")">Contacts</a></li>
+                                    <li><a href="@Url.Action("Index", "Fashionista")">Fashionistas</a></li>
                                     <li><a class="nav-link text-dark" id="logout" asp-action="Logout" asp-controller="Account">Logout</a></li>
                                 }
                                 else if (@userRole == "Fashionista")
@@ -65,7 +65,7 @@
                                     <li><a href="@Url.Action("Index", "Home")">Home</a></li>
                                     <li><a href="@Url.Action("MyDesign", "Design")">My Designs</a></li>
                                     <li><a href="@Url.Action("Upvoted", "Design")">Upvoted</a></li>
-                                    <li><a href="@Url.Action("Contact", "Home")">Contacts</a></li>
+                                    <li><a href="@Url.Action("Index", "Fashionista")">Fashionistas</a></li>
                                     <li><a class="nav-link text-dark" id="logout" asp-action="Logout" asp-controller="Account">Logout</a></li>
                                 }
                             }

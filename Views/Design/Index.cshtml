@@ -38,11 +38,10 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="@Url.Content(design.Image)">
                         </div>
-                        <div class="product__item__text">
+                        <div class="">
                             <h6>@design.Name</h6>
-                            <h6>By: @design.FashionistaName</h6>
-                            <h6>Upvotes: @design.UpVotes</h6>
-                            <a asp-action="ViewDesign" asp-controller="Design" asp-route-id="@design.Id" class="add-cart">View</a>
+                            <h6><a class="red-hover" asp-action="Page" asp-controller="Fashionista" asp-route-userId="@design.FashionistaId">By: @design.FashionistaName</a></h6>
+                            <a class="btn btn-outline-dark w-100" asp-action="ViewDesign" asp-controller="Design" asp-route-id="@design.Id" class="add-cart">View</a>
                         </div>
                     </div>
                 </div>
