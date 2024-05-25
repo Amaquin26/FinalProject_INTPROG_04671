@@ -29,7 +29,7 @@ namespace FashionWebsite.Controllers
             var result = await _designRepository.GetMyDesigns();
 
             if (result == null)
-                return RedirectToAction("NotFoundPage", "Home");
+                return RedirectToAction("PageNotFound", "Home");
 
             return View(result);
         }
@@ -39,7 +39,7 @@ namespace FashionWebsite.Controllers
             var result = await _designRepository.GetDesignById(id);
 
             if(result == null)
-                return RedirectToAction("NotFoundPage", "Home");
+                return RedirectToAction("PageNotFound", "Home");
 
             return View(result);
         }
