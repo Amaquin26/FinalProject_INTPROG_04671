@@ -1,0 +1,40 @@
+﻿@using FashionWebsite.ViewModels
+@model EditDesignViewModel
+
+<section>
+    <div class="container">
+        <h3 class="display-6">Edit Design</h3>
+        <div class="col-lg-6 col-md-6" style="margin:auto">
+            <div class="contact__form">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form asp-action="EditDesign" method="post" enctype="multipart/form-data">
+                    <input asp-for="Id" type="hidden" value="@Model.Id" />
+                    <div class="row">
+                        <div class="w-100">
+                            <label asp-for="Name" class="form-label">Name</label>
+                            <input asp-for="Name" type="text" placeholder="Design Name" value="@Model.Name"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="w-100">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <textarea class="form-control" placeholder="Description" asp-for="Description" style="height: 100px">@Model.Description</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="w-100">
+                            <label asp-for="Price" class="form-label">Price</label>
+                            <input asp-for="Price" type="number" placeholder="Price" value="@Model.Price"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label asp-for="Image" class="form-label">Image (Leave empty to retain image)</label>
+                        <input asp-for="Image" class="form-control" type="file" accept="image/*" id="formFile">
+                    </div>
+                    <button type="submit" class="btn btn-light btn-outline-dark w-100">Edit Design</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

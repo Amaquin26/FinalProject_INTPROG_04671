@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using FashionWebsite.ViewModels
+@model LoginViewModel
+
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h2>Login</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__text">
+                    <div class="section-title">
+                        <h2>
+                            Be a Part of
+                            <div class="header__logo">
+                                <a href="@Url.Action("Index", "Home")"><li style="list-style: none; display: inline-block; height: 30px; line-height: 30px; font-size: 55px; color: brown;">FashionWeb</li></a>
+                            </div>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="contact__form">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="p-4 mb-4 text-sm text-danger rounded-lg border border-danger" role="alert">
+                            <span class="font-medium">Error!</span> - @TempData["Error"]
+                        </div>
+                    }               
+                    <form asp-action="Login" method="post">
+                        <div class="row">
+                            <div class="w-100">
+                                <input asp-for="EmailAddress" type="text" placeholder="Email" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="w-100">
+                                <input asp-for="Password" type="password" placeholder="Password" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

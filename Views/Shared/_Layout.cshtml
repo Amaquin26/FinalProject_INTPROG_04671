@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FashionistaWebsite</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+</head>
+<body>
+
+
+
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <a href="@Url.Action("Index", "Home")">
+                            <li style="list-style: none; display: inline-block; height: 30px; line-height: 30px; font-size: 20px; color: brown;">FashionistaWeb</li>
+                            </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            @{
+                                var roleClaim = ((System.Security.Claims.ClaimsIdentity)User.Identity)
+                                .Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role);
+                                string userRole = roleClaim != null ? roleClaim.Value : "No role found";
+                            }
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                <li><a href="@Url.Action("Index", "Design")">Designs</a></li>
+                                <li><a href="@Url.Action("Contact", "Home")">Contacts</a></li>
+                                <li><a class="nav-link text-dark" id="login" asp-action="Login" asp-controller="Account">Login</a></li>
+                                <li><a class="nav-link text-dark" id="register" asp-action="Register" asp-controller="Account">Register</a></li>
+                            }
+                            else
+                            {
+                                @if (@userRole == "Customer")
+                                {
+                                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                    <li><a href="@Url.Action("Index", "Design")">Designs</a></li>
+                                    <li><a href="@Url.Action("Liked", "Design")">Liked Designs</a></li>
+                                    <li><a href="@Url.Action("Contact", "Home")">Contacts</a></li>
+                                    <li><a class="nav-link text-dark" id="logout" asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                }
+                                else if (@userRole == "Fashionista")
+                                {
+                                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                    <li><a href="@Url.Action("MyDesign", "Design")">My Designs</a></li>
+                                    <li><a href="@Url.Action("Contact", "Home")">Contacts</a></li>
+                                    <li><a class="nav-link text-dark" id="logout" asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                }
+                            }
+                            
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+
+
+    
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/jquery.slicknav.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>

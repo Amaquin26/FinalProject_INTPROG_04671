@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using FashionWebsite.ViewModels
+@model IEnumerable<TopDesignViewModel>
+<style>
+    body {
+        margin: 0;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .hero__text {
+        margin-left: 200px
+    }
+
+</style>
+<div class="hero__slider owl-carousel">
+    <div class="hero__items set-bg" data-setbg="@Url.Content("~/img/hero/hero-1.jpg")">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-5 col-lg-7 col-md-8">
+                    <div class="hero__text">
+                        <h6>Be a Fashionista</h6>
+                        <h2>Creativity</h2>
+                        <p>
+                            Promote your brand with us and reach a wider audience through our innovative platform. 
+                            With tailored marketing strategies, high-quality content creation
+                            , we help elevate your brand's visibility and engagement, 
+                            ensuring your message resonates with your target market effectively.
+                        </p>
+                        @{
+                            var roleClaim = ((System.Security.Claims.ClaimsIdentity)User.Identity)
+                            .Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role);
+                            string userRole = roleClaim != null ? roleClaim.Value : "No role found";
+                        }
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Login" asp-controller="Account" class="primary-btn">Become One Now <span class="arrow_right"></span></a>
+                        }
+                        else
+                        {
+                            @if (@userRole == "Customer")
+                            {
+                                <a asp-action="Index" asp-controller="Design" class="primary-btn">See Designs<span class="arrow_right"></span></a>
+                            }
+                            else if (@userRole == "Fashionista")
+                            {
+                                <a asp-action="MyDesigns" asp-controller="Design" class="primary-btn">Upload Designs<span class="arrow_right"></span></a>
+                            }
+                        }
+                        
+                        <div class="hero__social">
+                            <a><i class="fa fa-facebook"></i></a>
+                            <a><i class="fa fa-twitter"></i></a>
+                            <a><i class="fa fa-pinterest"></i></a>
+                            <a><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script>
+            $('.set-bg').each(function () {
+                var bg = $(this).data('setbg');
+                $(this).css('background-image', 'url(' + bg + ')');
+            });
+        </script>
+    }
+    <div class="hero__items set-bg" data-setbg="@Url.Content("~/img/hero/hero-2.jpg")">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-5 col-lg-7 col-md-8">
+                    <div class="hero__text">
+                        <h6>Be a Fashionista</h6>
+                        <h2>Creativity</h2>
+                        <p>
+                            Promote your brand with us and reach a wider audience through our innovative platform.
+                            With tailored marketing strategies, high-quality content creation
+                            , we help elevate your brand's visibility and engagement,
+                            ensuring your message resonates with your target market effectively.
+                        </p>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-action="Login" asp-controller="Account" class="primary-btn">Become One Now <span class="arrow_right"></span></a>
+                        }
+                        else
+                        {
+                            @if (@userRole == "Customer")
+                            {
+                                <a asp-action="Index" asp-controller="Design" class="primary-btn">See Designs<span class="arrow_right"></span></a>
+                            }
+                            else if (@userRole == "Fashionista")
+                            {
+                                <a asp-action="MyDesigns" asp-controller="Design" class="primary-btn">Upload Designs<span class="arrow_right"></span></a>
+                            }
+                        }
+                        <div class="hero__social">
+                            <a><i class="fa fa-facebook"></i></a>
+                            <a><i class="fa fa-twitter"></i></a>
+                            <a><i class="fa fa-pinterest"></i></a>
+                            <a><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="banner spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 offset-lg-4">
+                <div class="banner__item">
+                    <div class="banner__item__pic">
+                        <img src="img/banner/banner-1.jpg" alt="">
+                    </div>
+                    <div class="banner__item__text">
+                        <h2>Make Collections</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="banner__item banner__item--middle">
+                    <div class="banner__item__pic">
+                        <img src="img/banner/banner-2.jpg" alt="">
+                    </div>
+                    <div class="banner__item__text">
+                        <h2>Inspire</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="banner__item banner__item--last">
+                    <div class="banner__item__pic">
+                        <img src="img/banner/banner-3.jpg" alt="">
+                    </div>
+                    <div class="banner__item__text">
+                        <h2>Art</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="filter__controls">
+                    <li class="active">Top Design of the Week</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row gx-4">
+            @foreach(var design in Model)
+            {
+                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="@Url.Content(design.DesignImage)">
+                        </div>
+                        <div class="product__item__text">
+                            <h6>@design.DesignName</h6>
+                            <h6>By: @design.FashionistaName</h6>
+                            <a asp-action="ViewDesign" asp-controller="Design" asp-route-id="@design.DesignId" class="add-cart">View</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+

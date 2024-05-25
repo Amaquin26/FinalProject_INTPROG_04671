@@ -1,0 +1,42 @@
+﻿@using FashionWebsite.ViewModels
+@model DesignPageViewModel
+
+
+<div class="max-width-700 mx-auto">
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@Model.DesignName</h5>
+            <p>
+                By: @Model.FashionistaName
+            </p>
+            <p class="card-text">
+                @Model.Description
+            </p>
+            <p class="card-text no-margin"><small class="text-body-secondary">Date Uploaded: @Model.DateAdded.ToString("MMMM dd, yyyy")</small></p>
+            <p class="card-text no-margin"><small class="text-body-secondary">Declared Price: @Model.Price.ToString("C")</small></p>
+            <p class="card-text no-margin"><small class="text-body-secondary"> @Model.UpVotes Upvotes</small></p>
+            @if (Model.IsOwner)
+            {
+                <div class="display-end">
+                    <a asp-action="EditDesign" asp-controller="Design" asp-route-id="@Model.DesignId" class="btn btn-light btn-outline-dark">Edit Design</a>
+                </div>
+            }
+        </div>
+    </div>
+    <img src="@Url.Content(Model.DesignImage)" class="card-img-bottom">
+</div>
+
+<style>
+    .max-width-700 {
+        max-width: 700px;
+    }
+
+    .no-margin{
+        margin:0 !important;
+    }
+
+    .display-end{
+        display:flex;
+        justify-content:end;
+    }
+</style>
