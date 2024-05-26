@@ -162,6 +162,21 @@ namespace FashionWebsite.Controllers
             return View(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CommentDesign(int desingId, string title, string comment)
+        {
+            var userClaim = _contextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userClaim == null)
+                return RedirectToAction("Unauthorized", "Home");
+
+            string userId = userClaim.Value;
+
+            await _designRepository.CommentDesign(userId, desingId, title, comment);
+
+            return RedirectToAction("ViewDesign", new { id = desingId });
+        }
+
         private async Task<bool> IsUserAuthenticatedAndFashionista()
         {
 

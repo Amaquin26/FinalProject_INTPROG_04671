@@ -15,5 +15,6 @@ namespace FashionWebsite.Models
         public int UpVotes { get; set; }
         public DateTime DateAdded { get; set; }
         public ICollection<UpVotes> UserUpVotes { get; set; } = new List<UpVotes>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

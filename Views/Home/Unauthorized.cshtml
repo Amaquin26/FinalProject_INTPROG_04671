@@ -4,4 +4,13 @@
 @{
 }
 
-<h1>Unauthorized</h1>
+<div class="card" style="max-width:700px;margin:auto;">
+    <div class="card-header text-danger">
+        Unauthorized
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Forbidden Page Request.</h5>
+        <p class="card-text">You need to be logged in or have the privilleged access</p>
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Back to Home</a>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿using FashionWebsite.Models;
+using System.Xml.Linq;
 
 namespace FashionWebsite.ViewModels
 {
@@ -15,5 +16,6 @@ namespace FashionWebsite.ViewModels
         public DateTime DateAdded { get; set; }
         public bool IsOwner { get; set; }
         public bool HasUpvoted { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace FashionWebsite.Models
         public DbSet<Design> Designs { get; set; }
 
         public DbSet<UpVotes> UpVotes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

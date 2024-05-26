@@ -52,6 +52,11 @@
                     </div>
                 </div>
             }
+
+            @if (!Model.DesignViews.Any())
+            {
+                <h4>No Designs Yet.</h4>
+            }
         </div>
     </div>
 </section>

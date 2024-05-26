@@ -215,6 +215,7 @@ namespace FashionWebsite.Repository
                     UpVotes = d.UpVotes,
                     Price = d.Price,
                     DateAdded = d.DateAdded,
+                    Comments = new List<Comment>()
                 })
                 .FirstOrDefaultAsync();
 
@@ -229,6 +230,10 @@ namespace FashionWebsite.Repository
             { 
                 design.IsOwner = isOwner;
                 design.HasUpvoted = hasUpvoted;
+
+                var comments = await _context.Comments.Include(x => x.User).Where(x => x.DesignId == design.DesignId).ToListAsync();
+                if (comments != null)
+                    design.Comments = comments;
             }
 
             return design;
@@ -317,6 +322,20 @@ namespace FashionWebsite.Repository
             .ToListAsync();
 
             return myUpvotedDesings;
+        }
+
+        public async Task CommentDesign(string userId, int desingId, string title, string comment)
+        {
+            var newComment = new Comment
+            {
+                UserId = userId,
+                DesignId = desingId,
+                Title = title,
+                Description = comment
+            };
+
+            _context.Comments.Add(newComment);
+            await _context.SaveChangesAsync();
         }
     }
 }

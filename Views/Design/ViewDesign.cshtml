@@ -34,6 +34,43 @@
         </div>
     </div>
     <img src="@Url.Content(Model.DesignImage)" class="card-img-bottom">
+
+
+    <div class="mt-3 mb-3">
+        <h4>Comments</h4>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="card p-2 mt-3 my-3">
+                <h6 class="card-subtitle mb-2 text-body-secondary">Write a comment</h6>
+                <form asp-action="CommentDesign" asp-controller="Design" method="post">
+                    <input type="hidden" class="form-control mb-2" name="desingId" value="@Model.DesignId" aria-describedby="addon-wrapping">
+                    <input type="text" class="form-control mb-2" name="title" placeholder="Title" aria-label="Title" aria-describedby="addon-wrapping" required>
+                    <textarea class="form-control" placeholder="Leave a comment" name="comment" style="height: 100px" required></textarea>
+                    <div class="d-flex justify-content-end mt-2">
+                        <button type="submit" class="btn btn-outline-dark">Submit</button>
+                    </div>
+                </form>
+            </div>
+        }
+
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="card p-2 mt-3 my-3">
+                <h5 class="card-title">@comment.Title</h5>
+                <p class="card-text mb-2 text-body-secondary" style="margin-bottom:0 !important"><small><strong>@comment.User.FirstName @comment.User.LastName</strong> Commented</small></p>
+                <p class="card-text mb-2 text-body-secondary" style="margin-top:0 !important"><smalL>@comment.CreatedDate.ToString("MMMM dd, yyyy hh:mm tt")</smalL></p>
+                <h6 class="card-subtitle">
+                    @comment.Description
+                </h6>
+            </div>
+        }
+
+        @if (!Model.Comments.Any())
+        {
+            <h5>Be the first to comment. Make a topic or start a discussion.</h5>
+        }
+    </div>
 </div>
 
 <style>
